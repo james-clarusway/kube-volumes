@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+        name: nginx-pod
+        labels:
+          app: nginx
+    spec:
+        containers:
+        - name: mynginx
+          image: nginx:1.19
+          ports:
+          - containerPort: 80
+          volumeMounts:
+            - mountPath: /cache
+              name: cache-volume
+        volumes:
+        - name: cache-volume
+          emptyDir: {}
